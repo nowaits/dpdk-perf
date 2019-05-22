@@ -10,7 +10,7 @@
 ### [编译](https://wiki.fd.io/view/VPP/Pulling,_Building,_Running,_Hacking_and_Pushing_VPP_Code)
 - git clone git@github.com:FDio/vpp.git
 - ==首次安装系统依赖==：`build-root/vagrant/build.sh`
-    - 从`\\fileserver.xdja.com\信大捷安\部门文件\研发中心\安全接入\dpdk\vpp\vpp-Downloads`下载dpdk，nasm等压缩包到`~/Downloads`目录下加快安装时间
+    - 从``下载dpdk，nasm等压缩包到`~/Downloads`目录下加快安装时间
 - 编译：make build
 - 运行：`make run`
 - 调试模式运行：`make debug`
