@@ -1,0 +1,5 @@
+create host-interface name ens33 hw-addr {MAC0}
+set interface state host-ens33 up
+set interface ip address host-ens33 {IP0}/24
+
+test http server uri tls://0.0.0.0/443

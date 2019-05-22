@@ -1,0 +1,24 @@
+set confirm off
+set breakpoint pending on
+set logging file gdb-debug.log
+set logging on
+set logging overwrite on
+handle SIGUSR1 noprint nostop
+set detach-on-fork off
+#set follow-fork-mode child
+set print inferior-events
+set print inferior-events on
+set print inferior-events off
+
+b openssl_ctx_alloc
+b openssl_ctx_free
+b openssl_ctx_get
+b openssl_ctx_get_w_thread
+b openssl_ctx_init_server
+b openssl_ctx_init_client
+b openssl_ctx_write
+b openssl_ctx_read
+b openssl_handshake_is_over
+b openssl_start_listen
+b openssl_stop_listen
+r

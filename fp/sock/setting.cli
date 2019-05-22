@@ -1,0 +1,6 @@
+ifconfig fp0 {IP12}/24
+ifconfig fp1 {IP22}/24
+debug 0x0
+debug capture 3
+stat set 3
+loglevel set error

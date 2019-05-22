@@ -1,0 +1,23 @@
+
+ROOT_DIR=`pushd ${0%/*} >/dev/null && pwd && popd >/dev/null`
+
+source $ROOT_DIR/../../env.ini
+
+cd $ROOT_DIR
+
+export VPP_ROOT
+
+if [ ! -f configure ]; then
+	autoreconf -i -f
+fi
+
+mkdir build
+pushd build
+
+if [ ! -f Makefile ]; then
+	../configure --prefix=/usr
+fi
+
+make $@ all install-plugin
+
+popd >/dev/null

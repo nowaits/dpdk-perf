@@ -1,0 +1,16 @@
+create host-interface name ens33 hw-addr 00:0c:29:69:66:9a
+set interface state host-ens33 up
+set interface ip address host-ens33 192.168.22.100/24
+
+create host-interface name ens35 hw-addr 00:0c:29:69:66:c2
+set interface state host-ens35 up
+set interface ip address host-ens35 192.168.101.100/24
+
+test http server uri tcp://0.0.0.0/80
+
+ikev2 profile add pr1 
+ikev2 profile set pr1 auth shared-key-mic string Vpp123
+ikev2 profile set pr1 id local fqdn vpp.home 
+ikev2 profile set pr1 id remote fqdn roadwarrior.vpn.example.com 
+ikev2 profile set pr1 traffic-selector local ip-range 192.168.22.0 - 192.168.22.255 port-range 0 - 65535 protocol 0 
+ikev2 profile set pr1 traffic-selector remote ip-range 192.168.100.0 - 192.168.100.255 port-range 0 - 65535 protocol 0 

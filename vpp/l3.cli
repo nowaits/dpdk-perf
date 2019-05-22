@@ -1,0 +1,5 @@
+set interface state eth0 up
+set interface state eth1 up
+set interface ip address eth0 {IP12}/24
+set interface ip address eth1 {IP22}/24
+test http server uri tls://0.0.0.0/443

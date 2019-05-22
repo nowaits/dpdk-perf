@@ -1,0 +1,6 @@
+ifconfig fp0 192.168.100.128/24
+ifconfig fp1 192.168.101.128/24
+debug 0x0
+debug capture 3
+stat set 3
+loglevel set error

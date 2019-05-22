@@ -1,0 +1,20 @@
+set interface state eth0 up
+set interface ip address eth0 {IP12}/24
+
+packet-generator new {
+  name udp
+  limit -1
+  rate 1e4
+  node ip4-input
+  size 100-100
+  interface eth0
+  data {
+   UDP: 192.168.100.128 - 192.168.100.255 -> 192.168.100.1
+   UDP: 4321 -> 1234
+    length 128 
+    incrementing 100
+  }
+}
+
+trace add pg-input 10
+packet-generator enable-stream
