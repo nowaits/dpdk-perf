@@ -4,6 +4,7 @@
 - [Continuous Performance Trending](https://docs.fd.io/csit/master/trending/index.html)
 - [CSIT](https://wiki.fd.io/view/CSIT)
 - [vpp文件](https://wiki.fd.io/view/Presentations)
+- [邮件列表](https://lists.fd.io/g/main/join)
 
 ---
 
@@ -44,44 +45,46 @@
 ---
 ## 基本处理
 - vector基本处理过程
-```
-// 向vlib_main_t::node_main::pending_frames添加处理
-void vlib_put_next_frame(vlib_main_t *vm,
-    vlib_node_runtime_t *r,
-    u32 next_index, u32 n_vectors_left) {
-        ...
-        vec_add2(nm->pending_frames, p, 1);
-        ...
-    }
-
-vlib_main_or_worker_loop() {
-    ..
-    while(1) {
-        ...
-        // 遍历各个数据源，生成vector，
-        // 并添加到历nde_main->pending_frames中
-        vec_foreach(n, nm->nodes_by_type[VLIB_NODE_TYPE_INPUT]) {
-            cpu_time_now = dispatch_node(vm, n,
-                        VLIB_NODE_TYPE_INPUT,
-                        VLIB_NODE_STATE_POLLING,
-                        /* frame */ 0,
-                        cpu_time_now);
+    
+    ```
+    // 向vlib_main_t::node_main::pending_frames添加处理
+    void vlib_put_next_frame(vlib_main_t *vm,
+        vlib_node_runtime_t *r,
+        u32 next_index, u32 n_vectors_left) {
+            ...
+            vec_add2(nm->pending_frames, p, 1);
+            ...
         }
-        ...
-        // 遍历nde_main->pending_frames
-        // 实现vector在有向图中的流动
-        for (i = 0; i < _vec_len(nm->pending_frames); i++) {
-                // 处理过程中，各个节点
-                // 可以通过vlib_put_next_frame
-                // 向nm->pending_frames动态添加
-                cpu_time_now = dispatch_pending_node(vm, i, cpu_time_now);
+    
+    vlib_main_or_worker_loop() {
+        ..
+        while(1) {
+            ...
+            // 遍历各个数据源，生成vector，
+            // 并添加到历nde_main->pending_frames中
+            vec_foreach(n, nm->nodes_by_type[VLIB_NODE_TYPE_INPUT]) {
+                cpu_time_now = dispatch_node(vm, n,
+                            VLIB_NODE_TYPE_INPUT,
+                            VLIB_NODE_STATE_POLLING,
+                            /* frame */ 0,
+                            cpu_time_now);
             }
-        // 清空，有向图结束处理
-        _vec_len(nm->pending_frames) = 0;
-        ...
+            ...
+            // 遍历nde_main->pending_frames
+            // 实现vector在有向图中的流动
+            for (i = 0; i < _vec_len(nm->pending_frames); i++) {
+                    // 处理过程中，各个节点
+                    // 可以通过vlib_put_next_frame
+                    // 向nm->pending_frames动态添加
+                    cpu_time_now = dispatch_pending_node(vm, i, cpu_time_now);
+                }
+            // 清空，有向图结束处理
+            _vec_len(nm->pending_frames) = 0;
+            ...
+        }
     }
-}
-```
+    ```
+
 - 调试验证：
     ```
     make debug
@@ -142,8 +145,8 @@ vlib_main_or_worker_loop() {
 - https://yq.aliyun.com/articles/472840
 - https://en.wikipedia.org/wiki/Cisco_Express_Forwarding
 - [Cisco Express Forwarding Overview](https://www.cisco.com/c/en/us/td/docs/ios/12_2/switch/configuration/guide/fswtch_c/xcfcef.html)
-- https://yq.aliyun.com/articles/452086?spm=a2c4e.11153940.0.0.5d9057ceTuYKEV
-- 
+- [CISCO CEF(Cisco Express Forwarding,Cisco特快交换](https://yq.aliyun.com/articles/452086?spm=a2c4e.11153940.0.0.5d9057ceTuYKEV)
+
 #### 其它
 - [VPP/How To Optimize Performance (System Tuning)](https://wiki.fd.io/view/VPP/How_To_Optimize_Performance_(System_Tuning))
 - [VPP/Command-line Interface (CLI) Guide](https://wiki.fd.io/view/VPP/Command-line_Interface_(CLI)_Guide)
