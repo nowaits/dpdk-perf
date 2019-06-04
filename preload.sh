@@ -1,4 +1,4 @@
-ROOT_DIR=`pushd ${0%/*} >/dev/null && pwd && popd >/dev/null`
+ROOT_DIR=`realpath $(dirname $0)`
 source $ROOT_DIR/env.ini
 
 if [ "$(id -u)" != 0 ]; then

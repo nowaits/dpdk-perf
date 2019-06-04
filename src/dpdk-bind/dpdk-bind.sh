@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ROOT_DIR=`pushd ${0%/*} >/dev/null && pwd && popd >/dev/null`
+ROOT_DIR=`realpath $(dirname $0)`
 
 source $ROOT_DIR/../../env.ini
 export RTE_SDK=$DPDK

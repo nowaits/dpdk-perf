@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ROOT_DIR=`pushd ${0%/*} >/dev/null && pwd && popd >/dev/null`
+ROOT_DIR=`realpath $(dirname $0)`
 
 export ODP_CONFIG_FILE=$ROOT_DIR/odp.conf
 export OFP_CONF_FILE=$ROOT_DIR/ofp.conf
